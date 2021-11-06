@@ -3,6 +3,7 @@ import { BrowserRouter as Switch, Route, Router} from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { createBrowserHistory } from "history";
+import Logo from './Images/Logo.png';
 
 const history = createBrowserHistory();
 class App extends Component {
@@ -29,16 +30,23 @@ class App extends Component {
       <Container fluid>
 
         <Row>
-          <Col>Header Here</Col>
+          <Col><img src={Logo} alt="Forbes Services LLC" width="150" height="150"></img>Header Here</Col>
         </Row>
-
+      <hr></hr>
         <Row>
-          <Col sm={8}>Menuu Links</Col>
+          <Col sm={6}><Container>Menuu Links</Container></Col>
           <Col sm={4}>Login/Logout/User Info</Col>
         </Row>
-
+      <hr></hr>
         <Row>
-          <Col>Main body here</Col>
+          <Col>Main body here
+          dsfsdfsdf
+          sdfsdf
+          <br></br>
+          asdfasdf
+          <br></br>
+          asdfsadf
+          </Col>
         </Row>
 
         <Row>
