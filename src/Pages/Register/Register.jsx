@@ -32,19 +32,24 @@ export default function Register(props) {
     const handleFormSubmit = e => {
         e.preventDefault()
         const user = {
-            UserName: this.state.username,
-            Password: this.state.password,
-            FirstName: this.state.firstname,
-            LastName: this.state.lastname,
-            Email: this.state.email,
+            username: this.state.username,
+            password: this.state.password,
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            email: this.state.email,
             streetaddress: this.state.street,
             city: this.state.city,
             state: this.state.state,
-            zipCode: this.state.zip,
+            zipcode: this.state.zip,
             type: "User"
         }
         //Axios call here from props App.js
+        let response = axios.post('http://127.0.0.1:8000/api/auth/register/', user)
+        if(response === undefined){
+            console.log('Error registering user.')
+        }
     }
+
 
 
 
