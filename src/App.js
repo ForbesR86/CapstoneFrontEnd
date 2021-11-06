@@ -5,6 +5,11 @@ import axios from 'axios';
 import { createBrowserHistory } from "history";
 import Logo from './Images/Logo.png';
 
+// ************** Page imports ******************************
+import Register from './Pages/Register/Register'
+import Header from './Pages/Header/Header'
+import Footer from './Pages/Footer/Footer'
+
 const history = createBrowserHistory();
 class App extends Component {
   constructor(props) {
@@ -39,13 +44,7 @@ class App extends Component {
         </Row>
       <hr></hr>
         <Row>
-          <Col>Main body here
-          dsfsdfsdf
-          sdfsdf
-          <br></br>
-          asdfasdf
-          <br></br>
-          asdfsadf
+          <Col><Register/>
           </Col>
         </Row>
 
