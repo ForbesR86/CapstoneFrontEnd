@@ -38,10 +38,12 @@ class App extends Component {
           <Col><img src={Logo} alt="Forbes Services LLC" width="150" height="150"></img>Header Here</Col>
         </Row>
       <hr></hr>
+      <Container>
         <Row>
-          <Col sm={6}><Container>Menuu Links</Container></Col>
+          <Col sm={6}>Menuu Links</Col>
           <Col sm={4}>Login/Logout/User Info</Col>
         </Row>
+        </Container>
       <hr></hr>
         <Row>
           <Col><Register/>
