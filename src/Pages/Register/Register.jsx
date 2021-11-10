@@ -1,124 +1,144 @@
-import React, { useState, useEffect } from 'react'
-import axios from "axios";
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Form from '../../utilities/Forms'
 
-const initialFieldValues = {
-    username: '',
-    password: '',
-    firstname: '',
-    lastname: '',
-    email: '',
-    street: '',
-    city: "",
-    state: "",
-    zip: "",
-}
+const Register = () => {
 
-export default function Register(props) {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [validate, setValidate] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
 
+    const validateRegister = () => {
+        let isValid = true;
 
+        let validator = Form.validator({
+            name: {
+                value: name,
+                isRequired: true,
+            },
+            email: {
+                value: email,
+                isRequired: true,
+                isEmail: true
+            },
+            password: {
+                value: password,
+                isRequired: true,
+                minLength: 6
+            }
+        });
 
-    const [values, setValues] = useState(initialFieldValues)
+        if (validator !== null) {
+            setValidate({
+                validate: validator.errors
+            })
 
-
-
-    const handleInputChange = e => {
-        const { name, value } = e.target;
-        setValues({
-            ...values,
-            [name]: value,
-        })
-    }
-    const handleFormSubmit = e => {
-        e.preventDefault()
-        const user = {
-            username: this.state.username,
-            password: this.state.password,
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            email: this.state.email,
-            streetaddress: this.state.street,
-            city: this.state.city,
-            state: this.state.state,
-            zipcode: this.state.zip,
-            type: "User"
+            isValid = false
         }
-        //Axios call here from props App.js
-        let response = axios.post('http://127.0.0.1:8000/api/auth/register/', user)
-        if(response === undefined){
-            console.log('Error registering user.')
-        }
+        return isValid;
     }
 
+    const register = (e) => {
+        e.preventDefault();
 
+        const validate = validateRegister();
 
+        if (validate) {
+            setValidate({});
+            setName('');
+            setEmail('');
+            setPassword('');
+            alert('Successfully Register User');
+        }
+    }
 
-
-
-
+    const togglePassword = (e) => {
+        if (showPassword) {
+            setShowPassword(false);
+        } else {
+            setShowPassword(true)
+        }
+    }
 
     return (
-        <>
-            <Col sm={6}>
-                <Form className="reg-form" onSubmit ="">
-                    <Form.Group className="mb-3" controlId="formBasicRegister">
-                    <Row>
-                        <Col sm={6}>
-                            <Form.Label className="reg-label" >Username</Form.Label>
-                            <Form.Control className="reg-field" type='text' name='username' onChange={handleInputChange} value={values.username}/>
-                        </Col>
-                        <Col sm={6}>
-                            <Form.Label className="reg-label">Password</Form.Label>
-                            <Form.Control className="reg-field" type='password' name='password' onChange={handleInputChange} value={values.password}/>
-                        </Col>
-                    </Row>
+        <div className="row g-0 auth-wrapper">
+            <div className="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
+                <div className="auth-background-holder"></div>
+                <div className="auth-background-mask"></div>
+            </div>
 
-                    <Row>
-                        <Col sm={6}>
-                            <Form.Label className="reg-label">First Name</Form.Label>
-                            <Form.Control className="reg-field" type='text' name='firstname' onChange={handleInputChange}value={values.firstname}/>
-                        </Col>
-                        <Col sm={6}>
-                            <Form.Label className="reg-label">Last Name</Form.Label>
-                            <Form.Control className="reg-field" type='text' name='lastname' onChange={handleInputChange} value={values.lastname}/>
-                        </Col>
-                    </Row>
+            <div className="col-12 col-md-7 col-lg-6 auth-main-col text-center">
+                <div className="d-flex flex-column align-content-end">
+                    <div className="auth-body mx-auto">
+                        <p>Create your Account</p>
+                        <div className="auth-form-container text-start">
+                            <form className="auth-form" method="POST" onSubmit={register} autoComplete={'off'}>
 
-                    <Row>
-                        <Col sm={12}>
-                            <Form.Label className="reg-label" >Email</Form.Label>
-                            <Form.Control className="reg-field" type='email' name='email' onChange={handleInputChange} value={values.email}/>
-                        </Col>
-                    </Row>
+                                <div className="name mb-3">
+                                    <input type="text"
+                                        className={`form-control ${validate.validate && validate.validate.name ? 'is-invalid ' : ''}`}
+                                        id="name"
+                                        name="name"
+                                        value={name}
+                                        placeholder="Name"
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
 
-                    <Row>
-                        <Col sm={4}>
-                            <Form.Label className="reg-label">Street</Form.Label>
-                            <Form.Control className="reg-field" type='text' name='street' onChange={handleInputChange} value={values.street}/>
-                        </Col>
-                        <Col sm={3}>
-                            <Form.Label className="reg-label">City</Form.Label>
-                            <Form.Control className="reg-field" type='text' name='city' onChange={handleInputChange} value={values.city}/>
-                        </Col>
-                        <Col sm={2}>
-                            <Form.Label className="reg-label">State</Form.Label>
-                            <Form.Control className="reg-field" type='text' name='state' onChange={handleInputChange} value={values.state}/>
-                        </Col>
-                        <Col sm={2}>
-                            <Form.Label className="reg-label">Zip</Form.Label>
-                            <Form.Control className="reg-field" type='text' name='zip' onChange={handleInputChange} value={values.zip}/>
-                        </Col>
-                    </Row>
+                                    <div className={`invalid-feedback text-start ${(validate.validate && validate.validate.name) ? 'd-block' : 'd-none'}`} >
+                                        {(validate.validate && validate.validate.name) ? validate.validate.name[0] : ''}
+                                    </div>
+                                </div>
 
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicButton">
-                    <button className="reg-button" type='submit' value='Submit'>Register Account</button>{' '}
-                    <button className="reg-button" type='reset' value='reset'>Clear Form</button>
-                    </Form.Group>
-                </Form>
-                <Col sm={1}>
-                </Col>
-            </Col>
-        </>
-    )
+                                <div className="email mb-3">
+                                    <input type="email"
+                                        className={`form-control ${validate.validate && validate.validate.email ? 'is-invalid ' : ''}`}
+                                        id="email"
+                                        name="email"
+                                        value={email}
+                                        placeholder="Email"
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+
+                                    <div className={`invalid-feedback text-start ${(validate.validate && validate.validate.email) ? 'd-block' : 'd-none'}`} >
+                                        {(validate.validate && validate.validate.email) ? validate.validate.email[0] : ''}
+                                    </div>
+                                </div>
+
+                                <div className="password mb-3">
+                                    <div className="input-group">
+                                        <input type={showPassword ? 'text' : 'password'}
+                                            className={`form-control ${validate.validate && validate.validate.password ? 'is-invalid ' : ''}`}
+                                            name="password"
+                                            id="password"
+                                            value={password}
+                                            placeholder="Password"
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+
+                                        <button type="button" className="btn btn-outline-primary btn-sm" onClick={(e) => togglePassword(e)} ><i className={showPassword ? 'far fa-eye' : 'far fa-eye-slash'} ></i> </button>
+
+                                        <div className={`invalid-feedback text-start ${(validate.validate && validate.validate.password) ? 'd-block' : 'd-none'}`} >
+                                            {(validate.validate && validate.validate.password) ? validate.validate.password[0] : ''}
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div className="text-center">
+                                    <button type="submit" className="btn btn-primary w-100 theme-btn mx-auto">Sign Up</button>
+                                </div>
+                            </form>
+
+                            <hr />
+                            <div className="auth-option text-center pt-2">Have an account? <Link className="text-link" to="/login" >Sign in</Link></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    );
 }
+
+export default Register;
